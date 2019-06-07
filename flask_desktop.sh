@@ -17,7 +17,7 @@ pip install pymysql
 pip install requests
 pip install sqlite3
 pip install PIL  # gona use this to auto generate the favico...plus its the best img module for python in the universe...yeah we've checked.
-pip install git+git://github.com/widdershin/flask-desktop.git
+pip install WebUI
 
 pip freeze > requirements.txt
 
