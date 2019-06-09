@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "This does not work with python2.* . Use 3.* instead (tested only with 3.6, cause thats where the magik is at).\nIf you are using virtualenv please make sure its activated before executing this."
+echo "This does not work with python2.* . Use 3.* instead (tested only with 3.6, cause thats where the magik is at).
+If you are using virtualenv please make sure its activated before executing this."
 read -p "Proceed?: (y/n)" proceed
 if [[  "$proceed" != 'y' && "$proceed" != 'Y' ]]
 then
