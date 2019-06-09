@@ -25,7 +25,7 @@ pip install mypy
 pip install pymysql
 pip install requests
 pip install pillow  # gona use this to auto generate the favico...plus its the best img module for python in the universe...yeah we've checked.
-pip install WebUI
+pip install git+git://github.com/widdershin/flask-desktop.git
 
 pip freeze > requirements.txt
 
@@ -54,7 +54,21 @@ mkdir -p static/img
 mkdir -p static/js
 mkdir -p static/css
 mkdir bin
-
+cd templates
+cat <<EOF >index.html
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    HELLO WORLD!
+</body>
+</html>
+EOF
+cd ..
 cd modules
 touch __init__.py
 
@@ -63,7 +77,7 @@ cat <<EOF >db.py
 import sqlite3
 
 class DB:
-    def __init__(self,filename='example.db')
+    def __init__(self,filename='example.db'):
         #You can also supply the special name :memory: to create a database in RAM.
         self.db_file = filename
         self.conn = False
