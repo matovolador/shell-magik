@@ -9,14 +9,24 @@ pip install flask
 pip install flake8
 pip install pymysql
 pip install requests
+pip install python-dotenv
 pip install gunicorn
 pip freeze > requirements.txt
+modules_path = ""
+# construct python project modules path
+if [[ "${str: -1}" != '/' ]]
+then
+        $modules_path = "$path"+"/modules"
+else
+        $modules_path = "$path"+"modules"
+fi
 
 cat <<EOF >__init__.py
 from flask import Flask, request, render_template, Response, abort, send_file, jsonify, redirect, url_for, send_from_directory, session, make_response, flash, g, send_from_directory
 import pymysql.cursors
 import json, os, requests
-from modules.db import DB
+sys.path.append("$modules_path")  # change that if you upload this to remote (path will differ most likely)
+from db import DB
 
 app = Flask(__name__)
 
@@ -35,6 +45,24 @@ if __name__ == "__main__":
         app.run(debug=True)
 
 EOF
+
+
+cat <<EOF >.env
+# Doc: https://github.com/theskumar/python-dotenv
+export DATABASE_NAME = <enter_database_name>
+EOF
+cat <<EOF >settings.py
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+# OR, the same with increased verbosity:
+#load_dotenv(verbose=True)
+EOF
+
+
+
+
 mkdir modules
 mkdir sql
 mkdir templates
@@ -45,13 +73,16 @@ cd modules
 touch __init__.py
 cat <<EOF >db.py
 import pymysql.cursors
-
+import os
+# Insert database name inside the .env file. (and as many other env variables you want, like password, you dog's name, etc)
 class DB:
-    def __init__(self,database,host="localhost",user='root', password='secret',port=3306):
-        self.connection = pymysql.connect(host='localhost',user=user, password=password,db=database,cursorclass=pymysql.cursors.DictCursor)
+    def __init__(self,host="localhost",user='root', password='secret',port=3306):
+        DATABASE_NAME = os.getenv("DATABASE_NAME")
+        self.connection = pymysql.connect(host='localhost',user=user, password=password,db=DATABASE_NAME,cursorclass=pymysql.cursors.DictCursor)
+
 
 EOF
-
+echo ".env file will be included inside .gitignore. remove that line if you actually want that file in the repo."
 cd ..
 git init
 cat <<EOF >.gitignore
@@ -60,7 +91,7 @@ venv
 _labs
 *.pyc
 __pycache__
-
+.env
 EOF
 
 cat <<EOF >README.md
