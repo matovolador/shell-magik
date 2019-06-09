@@ -12,12 +12,21 @@ pip install requests
 pip install python-dotenv
 pip install gunicorn
 pip freeze > requirements.txt
+modules_path = ""
+# construct python project modules path
+if [[ "${str: -1}" != '/' ]]
+then
+        $modules_path = "$path"+"/modules"
+else
+        $modules_path = "$path"+"modules"
+fi
 
 cat <<EOF >__init__.py
 from flask import Flask, request, render_template, Response, abort, send_file, jsonify, redirect, url_for, send_from_directory, session, make_response, flash, g, send_from_directory
 import pymysql.cursors
 import json, os, requests
-from modules.db import DB
+sys.path.append("$modules_path")  # change that if you upload this to remote (path will differ most likely)
+from db import DB
 
 app = Flask(__name__)
 
