@@ -1,23 +1,30 @@
 #!/bin/bash
-echo "This does not work with python2.* . Use 3.* instead (tested only with 3.6, cause thats where the magik is at).
-If you are using virtualenv please make sure its activated before executing this."
+echo "This script requires python3.6 and virtualenv.
+Make sure you have both things installed before proceeding."
 read -p "Proceed?: (y/n)" proceed
 if [[  "$proceed" != 'y' && "$proceed" != 'Y' ]]
 then
     echo "Exiting script"
     exit 1
 fi
+python_path_default="/usr/bin/python3.6"
+read -p "Enter python3.6 path (defaults to $python_path_default ) Leave blank to use default:" python_path
+if [[ $python_path != "" ]]
+then
+    python_path="/usr/bin/python3.6"
+else
+    python_path="$python_path_default"
+fi
 read -p "Enter project path: " path
 mkdir $path
 cd $path
-virtualenv venv --python=/usr/bin/python3.6
+virtualenv venv --python="$python_path"
 source venv/bin/activate
 pip install flask
 pip install mypy
 pip install pymysql
 pip install requests
-pip install sqlite3
-pip install PIL  # gona use this to auto generate the favico...plus its the best img module for python in the universe...yeah we've checked.
+pip install pillow  # gona use this to auto generate the favico...plus its the best img module for python in the universe...yeah we've checked.
 pip install WebUI
 
 pip freeze > requirements.txt
