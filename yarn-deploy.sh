@@ -1,5 +1,4 @@
 #!/bin/bash
-# So this assumes you dont actually have a shell script located on your project base path. so it goes back a step, and executes the yarn command. OFC...you need to change the user, host, and maybe even the destination path? (doubtfull)
-cd ..
-yarn run build
-scp -r dist/* root@172.105.0.231:/var/www/html
+# Put this script on project root. If you need to use credentials, store them somewhere else and give them as variables to the script.
+yarn run build && scp -r dist/* root@172.105.0.231:/var/www/html || echo "Build failed. Skipping deployment."
+read -p "Enter any key to exit." continue
