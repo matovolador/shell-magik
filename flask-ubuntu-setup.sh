@@ -14,20 +14,20 @@ sudo a2enmod wsgi
 cd /var/www
 sudo mkdir -p flask_app/flask_app
 cd flask_app/flask_app
-read -p "Enter git repo to clone your code from in order to use in your flask app, like: https://you@repodomain/owner/repoName.git (leave blank to skip this):" repo
-if [[ "$repo" != "" ]]
-then
-	echo "Cloning repo..."
-	echo "Please make sure your flask app entry point is named __init__.py."
-	git clone $repo .
-else
-	echo "Skipping repo cloning as no repo url was given."
-fi
-sudo virtualenv venv --python=/usr/bin/python
-# Run this if repo was cloned
-source venv/bin/activate
-pip install -U -r requirements.txt
-deactivate
+# read -p "Enter git repo to clone your code from in order to use in your flask app, like: https://you@repodomain/owner/repoName.git (leave blank to skip this):" repo
+# if [[ "$repo" != "" ]]
+# then
+# 	echo "Cloning repo..."
+# 	echo "Please make sure your flask app entry point is named __init__.py."
+# 	git clone $repo .
+# else
+# 	echo "Skipping repo cloning as no repo url was given."
+# fi
+# sudo virtualenv venv --python=/usr/bin/python
+# # Run this if repo was cloned
+# source venv/bin/activate
+# pip install -U -r requirements.txt
+# deactivate
 sudo cat <<EOF >/var/www/flask_app/flask_app.wsgi
 #!/usr/bin/python
 import sys
@@ -69,4 +69,4 @@ sudo cat <<EOF >/etc/apache2/sites-enabled/flask_app.conf
 </VirtualHost>
 EOF
 sudo a2enmod rewrite
-sudo service apache2 restart
+# sudo service apache2 restart  # we dont want to run apache until we are sure everything is ok
