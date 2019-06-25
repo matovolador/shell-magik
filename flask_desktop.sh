@@ -11,14 +11,14 @@ python_path_default="/usr/bin/python3.6"
 read -p "Enter python3.6 path (defaults to $python_path_default ) Leave blank to use default:" python_path
 if [[ $python_path != "" ]]
 then
-    python_path="/usr/bin/python3.6"
+    $python_path="/usr/bin/python3.6"
 else
-    python_path="$python_path_default"
+    $python_path="$python_path_default"
 fi
 read -p "Enter project path: " path
 mkdir $path
 cd $path
-virtualenv venv --python="$python_path"
+virtualenv venv --python=$python_path
 source venv/bin/activate
 pip install flask
 pip install mypy
