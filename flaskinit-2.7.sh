@@ -16,9 +16,9 @@ modules_path = ""
 # construct python project modules path
 if [[ "${str: -1}" != '/' ]]
 then
-        $modules_path = "$path"+"/modules"
+        modules_path = "$path"+"/modules"
 else
-        $modules_path = "$path"+"modules"
+        modules_path = "$path"+"modules"
 fi
 
 cat <<EOF >__init__.py
