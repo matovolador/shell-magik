@@ -1,6 +1,13 @@
 #!/bin/bash
 echo "This script sets up a basic Kotlin project with gradle build tools to use with VSC or Scripting Editors."
 read -p "Make sure you are inside the project folder. Press enter to proceed." continue
+read -p "This setup script requires SDKMAN. Do you wish to install it? (y|n):" install_sdkman
+
+if [[ "$install_sdkman" = "y" || "$install_sdkman" = "Y" ]]
+then
+    curl -s https://get.sdkman.io | bash
+    
+fi
 
 echo "Creating file build.gradle ..."
 cat <<EOF >build.gradle
@@ -35,7 +42,11 @@ fun main(args: Array<String>) {
 EOF
 
 cd ../../..
-echo "Retreiving kotlin-native binaries from github..."
+echo "Do you wish to install Kotlin SDK with SDKMAN? (y|n):" install_kotlin
+if [[ "$install_kotlin" = "y" || "$install_kotlin" = "Y" ]]
+then
+    sdk install kotlin
+fi
 mkdir -p kotlin-native
 wget https://github.com/JetBrains/kotlin-native/archive/v1.3.0.zip && unzip v1.3.0.zip -d kotlin-native && rm v1.3.0.zip
 
