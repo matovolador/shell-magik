@@ -10,6 +10,10 @@ fi
 
 echo "Creating file build.gradle ..."
 cat <<EOF >build.gradle
+apply plugin: 'java'
+apply plugin: 'konan'
+
+
 buildscript {
     repositories {
         mavenCentral()
@@ -22,7 +26,10 @@ buildscript {
     }
 }
 
-apply plugin: 'konan'
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin/'
+    test.java.srcDirs += 'src/test/kotlin/'
+}
 
 konan.targets = ['linux']
 
@@ -30,6 +37,18 @@ konanArtifacts {
     program('hello')
 }
 EOF
+
+cat <<EOF >build.sh
+#!/bin/bash
+gradle clean build
+EOF
+chmod +x ./build.sh
+
+cat <<EOF >run.sh
+#!/bin/bash
+gradle run
+EOF
+chmod +x ./run.sh
 
 echo "Creating src/main/kotlin/hello.tk (project main)..."
 mkdir -p src/main/kotlin
@@ -41,6 +60,13 @@ fun main(args: Array<String>) {
 EOF
 
 cd ../../..
+
+echo "Do you wish to install Gradle SDK with SDKMAN? (y|n):" install_gradle
+if [[ "$install_gradle" = "y" || "$install_gradle" = "Y" ]]
+then
+    sdk install gradle
+fi
+
 echo "Do you wish to install Kotlin SDK with SDKMAN? (y|n):" install_kotlin
 if [[ "$install_kotlin" = "y" || "$install_kotlin" = "Y" ]]
 then
@@ -55,9 +81,12 @@ cat <<EOF >.gitignore
 kotlin.sh
 .settings
 .project
+build.sh
+run.sh
 # check for more of those massive folders that need to be ignored
 EOF
 
 git init
 echo "Make sure you reload your IDE. (Gradle and Kotlin installations require so if you use a scripting IDE)."
+echo "Build your project with build.sh script. Run it with run.sh."
 read -p "Done! Press any key to exit script." continue
