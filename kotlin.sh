@@ -6,7 +6,6 @@ read -p "This setup script requires SDKMAN. Do you wish to install it? (y|n):" i
 if [[ "$install_sdkman" = "y" || "$install_sdkman" = "Y" ]]
 then
     curl -s https://get.sdkman.io | bash
-    
 fi
 
 echo "Creating file build.gradle ..."
