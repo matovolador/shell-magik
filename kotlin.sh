@@ -53,9 +53,11 @@ echo "Adding .gitignore, and initializing git components."
 cat <<EOF >.gitignore
 .vscode
 kotlin.sh
+.settings
+.project
 # check for more of those massive folders that need to be ignored
 EOF
 
 git init
-
+echo "Make sure you reload your IDE. (Gradle and Kotlin installations require so if you use a scripting IDE)."
 read -p "Done! Press any key to exit script." continue
