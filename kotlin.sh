@@ -43,6 +43,7 @@ echo "Adding .gitignore, and initializing git components."
 cat <<EOF >.gitignore
 kotlin-native
 .vscode
+kotlin.sh
 # check for more of those massive folders that need to be ignored
 EOF
 
