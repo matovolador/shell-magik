@@ -41,7 +41,6 @@ wget https://github.com/JetBrains/kotlin-native/archive/v1.3.0.zip && unzip v1.3
 
 echo "Adding .gitignore, and initializing git components."
 cat <<EOF >.gitignore
-kotlin-native
 .vscode
 kotlin.sh
 # check for more of those massive folders that need to be ignored
