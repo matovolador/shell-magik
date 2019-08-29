@@ -1,7 +1,15 @@
 #!/bin/bash
 echo "This script sets up a basic Kotlin project with gradle build tools to use with VSC or Scripting Editors."
+read -p "Enter project path (leave blank for current location):" project_path
 read -p "Make sure you are inside the project folder. Press enter to proceed." continue
 read -p "This setup script requires SDKMAN. Do you wish to install it? (y|n):" install_sdkman
+
+if [[ "$project_path" = "" ]]
+then
+    project_path = "./"
+fi
+mkdir -p $project_path
+cd $project_path
 
 if [[ "$install_sdkman" = "y" || "$install_sdkman" = "Y" ]]
 then
@@ -61,13 +69,13 @@ EOF
 
 cd ../../..
 
-echo "Do you wish to install Gradle SDK with SDKMAN? (y|n):" install_gradle
+read -p "Do you wish to install Gradle SDK with SDKMAN? (y|n):" install_gradle
 if [[ "$install_gradle" = "y" || "$install_gradle" = "Y" ]]
 then
     sdk install gradle
 fi
 
-echo "Do you wish to install Kotlin SDK with SDKMAN? (y|n):" install_kotlin
+read -p "Do you wish to install Kotlin SDK with SDKMAN? (y|n):" install_kotlin
 if [[ "$install_kotlin" = "y" || "$install_kotlin" = "Y" ]]
 then
     sdk install kotlin
