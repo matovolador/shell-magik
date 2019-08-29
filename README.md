@@ -8,4 +8,4 @@ MIT
 
 ## If you want to donate
 
-4ArHfJ6tMwf7fGupuYsZZ9XFwgVAQPCdsXqtq9Kc1gwCSQfwLBwFCFwL5aav9KqCz6RMH4rYtaETaQuP81YcwYdUGrJCrPm
+[PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JMDSAAPB6WSSY&source=url)
