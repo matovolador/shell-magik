@@ -88,10 +88,9 @@ cat <<EOF >.gitignore
 .vscode
 kotlin.sh
 .settings
-.project
-build.sh
-run.sh
-# check for more of those massive folders that need to be ignored
+.gradle
+kotlin-native
+build
 EOF
 
 git init
