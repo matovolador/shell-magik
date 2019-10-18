@@ -1,6 +1,6 @@
 #!/bin/bash
 read -p "Enter project path: " path
-mkdir $path
+mkdir -p $path
 cd $path
 virtualenv venv --python=/usr/bin/python3.6
 source venv/bin/activate
@@ -11,10 +11,20 @@ pip install requests
 pip install gunicorn
 pip freeze > requirements.txt
 
+modules_path = ""
+# construct python project modules path
+if [[ "${str: -1}" != '/' ]]
+then
+        modules_path = "$path"+"/modules"
+else
+        modules_path = "$path"+"modules"
+fi
+
 cat <<EOF >__init__.py
 from flask import Flask, request, render_template, Response, abort, send_file, jsonify, redirect, url_for, send_from_directory, session, make_response, flash, g, send_from_directory
 import pymysql.cursors
-import json, os, requests
+import json, os, requests, sys
+sys.path.append("$modules_path")  # change that if you upload this to remote )(path will differ most likely)
 from modules.db import DB
 
 app = Flask(__name__)
@@ -37,7 +47,9 @@ EOF
 mkdir modules
 mkdir sql
 mkdir templates
-mkdir static
+mkdir -p static/js
+mkdir -p static/img
+mkdir -p static/css
 mkdir bin
 
 cd modules

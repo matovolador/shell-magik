@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "This will setup a Flask project using python2.7"
 read -p "Enter project path: " path
-mkdir $path
+mkdir -p $path
 cd $path
 virtualenv venv --python=/usr/bin/python
 source venv/bin/activate
