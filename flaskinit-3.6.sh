@@ -47,7 +47,9 @@ EOF
 mkdir modules
 mkdir sql
 mkdir templates
-mkdir static
+mkdir -p static/js
+mkdir -p static/img
+mkdir -p static/css
 mkdir bin
 
 cd modules
