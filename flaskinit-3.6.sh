@@ -1,6 +1,6 @@
 #!/bin/bash
 read -p "Enter project path: " path
-mkdir $path
+mkdir -p $path
 cd $path
 virtualenv venv --python=/usr/bin/python3.6
 source venv/bin/activate
