@@ -60,7 +60,7 @@ def token_required(f):
             }), 401
 
         try:
-            data = jwt.decode(token,app.secret_key)
+            data = jwt.decode(token,app.secret_key,algorithms="HS256")
             # validate token life:
             life = data['exp']
             rnow = int(datetime.now().timestamp())
@@ -232,9 +232,9 @@ def renew_token(current_user):
 def generate_token(user):
     exp = int((datetime.now() + timedelta(minutes=TOKEN_LIFE_MINUTES)).timestamp())
     if 'admin' in user and user['admin']:
-        token = jwt.encode({'email':user['email'],'exp':exp,"admin":True},app.secret_key)
+        token = jwt.encode({'email':user['email'],'exp':exp,"admin":True},app.secret_key,algorithm="HS256")
     else:
-        token = jwt.encode({'email':user['email'],'exp':exp},app.secret_key)
+        token = jwt.encode({'email':user['email'],'exp':exp},app.secret_key,algorithm="HS256")
     return token
 
 def send_passcode(to_email, template, subject):
@@ -519,10 +519,18 @@ class Tests(unittest.TestCase):
 
         print("Test 2 Completed.")
 
+    def test_3_can_access(self):
+        r = self.client.get("/must_be_logged_in", headers={"x-access-token":str(self.token)})
+        r_json = json.loads(r.data)
+        print(r_json)
+        self.assertEqual(r_json['success'],True)
+        print("Test 3 completed.")
+
 if __name__ == "__main__":
     tester = Tests()
     tester.test_1_get_health()
     tester.test_2_login(email="matias.garafoni@gmail.com")
+    tester.test_3_can_access()
 EOF
 
 git init
