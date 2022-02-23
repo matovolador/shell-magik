@@ -526,7 +526,7 @@ class User(BaseMixin,Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
-    email = Column(String, nullable=False)
+    email = Column(String, nullable=False,unique=True)
     created = Column(DateTime(),nullable=False, default=func.now())
     last_seen = Column(DateTime(),default=func.now())
     passcode = Column(Integer)
@@ -658,7 +658,7 @@ def upgrade():
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('first_name', sa.String, nullable=False),
         sa.Column('last_name', sa.String, nullable=False),
-        sa.Column('email',sa.String,nullable=False),
+        sa.Column('email',sa.String,nullable=False,unique=True),
         sa.Column('created',sa.DateTime(timezone=False),nullable=False, default=sa.func.now()),
         sa.Column('last_seen',sa.DateTime(timezone=False), default=sa.func.now()),
         sa.Column('passcode',sa.String),
